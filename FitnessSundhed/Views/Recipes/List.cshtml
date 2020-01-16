@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FitnessSundhed.Models.Recipes>
+
+@{
+    ViewBag.Title = "Recipes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<p>
+    @Html.ActionLink("Create New", "New") - @Html.ActionLink("Switch To Ingredients", "ListIngredients")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var recipe in Model) {
+    <tr>
+        <td>
+            <div class="container DivRecipe center-block">
+                <div class="row">
+                    <a href='@Url.Action("Overview", "Recipes", new { id = recipe.Id , name = recipe.Name })'>
+                        <img class="img-fluid center-block" src="http://placehold.it/750x500" alt="" height="372" , width="570">
+                    </a>
+                    
+                </div>
+                <div class="row RecipeTitle text-center" >
+                    <h2>@Html.ActionLink(recipe.Name, "Overview", "Recipes", new { id = recipe.Id , name = recipe.Name }, null)</h2>
+                </div>
+            </div>
+            
+        </td>
+        <td>
+            @Html.ActionLink("Delete", "Delete", new { id=recipe.Id })
+        </td>
+    </tr>
+}
+
+</table>

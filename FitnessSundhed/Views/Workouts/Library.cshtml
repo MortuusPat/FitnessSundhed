@@ -1,0 +1,43 @@
+﻿@model IEnumerable<FitnessSundhed.Models.Workouts>
+@{
+    ViewBag.Title = "Library";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+@if (!Model.Any())
+{
+    <p>Der findes ingen workouts på siden!</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="text-center"><h2>Workouts</h2></th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var workout in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(workout.Name, "Overview", "Workouts", new { id = workout.Id, name = workout.Name }, null)</td>
+
+
+                </tr>
+            }
+            
+
+
+        </tbody>
+
+    </table>
+}
+@Html.ActionLink("New Workout", "New", "Workouts")
+
+

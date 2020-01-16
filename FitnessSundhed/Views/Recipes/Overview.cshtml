@@ -1,0 +1,156 @@
+﻿@model FitnessSundhed.ViewModels.RecipeViewModel
+
+@{
+    ViewBag.Title = "Overview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Overview</h2>
+
+<h1 class="my-4">
+    @Model.Recipe.Name -
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Recipe.Id })
+
+</h1>
+<div class="row">
+
+    <div class="col-md-8">
+        <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+    </div>
+
+    <div class="col-md-4">
+
+        <h5 class="my-3">
+            <b>NUTRITIONAL INFORMATION</b>  <i>Based on 1 serving</i>
+
+        </h5>
+        <div class="row">
+            <div class="col-sm-3">
+                <i>Energy(kJ)</i> <br /> <br />
+                <b>@Model.Recipe.EnergyKJ</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Energy(Cals)</i> <br /> <br />
+                <b>@Model.Recipe.EnergyCals</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Protein</i> <br /> <br />
+                <b>@Model.Recipe.Protein</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Fat</i> <br /> <br />
+                <b>@Model.Recipe.Fat</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <br />
+                <i>Carbs</i> <br /> <br />
+                <b>@Model.Recipe.Carbs</b>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <i>Sugar</i> <br /> <br />
+                <b>@Model.Recipe.Sugar</b>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <i>Fiber</i> <br /> <br />
+                <b>@Model.Recipe.Fiber</b>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<p>
+
+    @Html.ActionLink("Back to List", "List")
+</p>
+
+@if (Model.RecipeDetails.Count == 0)
+{
+    <p>This Recipe does require any ingredients</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                List of Ingredients
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var detail in Model.RecipeDetails)
+        {
+            if (detail.Recipe == Model.Recipe)
+            {
+                <tr>
+                    <td>
+                        @detail.Quantity @detail.Measurement @detail.Ingredient.Name
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Delete", "DeleteDetail", new { id = detail.Id, recipeId = Model.Recipe.Id })*@
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+}
+
+@using (Html.BeginForm("CreateDetail", "Recipes", FormMethod.Post, null))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>RecipeDetails</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipeDetail.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RecipeDetail.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RecipeDetail.Quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipeDetail.Measurement, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RecipeDetail.Measurement, new List<SelectListItem>
+                    {
+                        new SelectListItem { Text="Item", Value = "Item" },
+                        new SelectListItem { Text="KG", Value = "KG" },
+                        new SelectListItem { Text="Gram", Value = "Gram"},
+                        new SelectListItem { Text="Liter", Value = "Liter" },
+                        new SelectListItem { Text="ML", Value = "Liter" },
+                        new SelectListItem { Text="Tsp", Value = "Tsp" },
+                        new SelectListItem { Text="Tbsp", Value = "Tbsp" },
+                        new SelectListItem { Text="Cup", Value = "Cup" }
+
+                }, "Select Measurement", new { htmlAttributes = new { @class = "form-control selectpicker" } })
+                @Html.ValidationMessageFor(model => model.RecipeDetail.Measurement, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RecipeDetail.Ingredient, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.RecipeDetail.Ingredient.Id, new SelectList(Model.Ingredients, "Id", "Name"), "Select Ingredient", new { htmlAttributes = new { @class = "form-control selectpicker" } })
+                @Html.ValidationMessageFor(model => model.RecipeDetail.Ingredient.Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Recipe.Id)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

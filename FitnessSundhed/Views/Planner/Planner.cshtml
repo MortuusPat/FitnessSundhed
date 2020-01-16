@@ -1,0 +1,141 @@
+﻿@model FitnessSundhed.ViewModels.PlanViewModel
+
+@{
+    ViewBag.Title = "Planner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@if (!Model.Plans.Any())
+{
+    <p>You don't have any active plan. Please click on the button below to create one.</p>
+    <button onclick="location.href='@Url.Action("Create", "Planner")';return false;">Create Plan</button>
+}
+else
+{
+    bool styleB = true;
+    <div class="container-fluid container">
+        <div class="row">
+            @foreach (var plan in Model.Plans)
+            {
+                <a href='@Url.Action("Planner", "Planner", new { day = plan.Day })'>
+                    <div class="col-sm-1">
+                        <h4>@plan.Day.ToString()</h4>
+                    </div>
+                </a>
+            }
+
+
+            
+
+        </div>
+    </div>
+    <div id="allExecises" class="container-fluid container">
+        @foreach (var plan in Model.Plans)
+        {
+            if (Model.RequestedDay == plan.Day)
+            {
+                <h2>@plan.Day</h2>
+                foreach (var distribution in Model.WorkoutsDistribution)
+                {
+
+                    if (distribution.Plan == plan)
+                    {
+                        
+                        string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
+                        <a href='@Url.Action("Overview", "Workouts", new { id = distribution.Workout.Id , name = distribution.Workout.Name })'>
+                            <div style="@style" id="singleExecise" class="row">
+                                <div id="imageDiv" class="col-sm-3">
+                                    <span><img class="img-fluid" src="http://placehold.it/750x500" alt="" height="186" , width="244"></span>
+                                </div>
+                                <div id="execiseDetails" class="row">
+                                    <div id="execiseReps" class="col-sm-3">
+                                        <h2 class="my-4">
+                                            @distribution.Workout.Name
+                                            <small>Reps</small>
+                                        </h2>
+
+                                    </div>
+                                    <div id="execiseName">
+                                        <h2 class="my-4"></h2>
+
+                                    </div>
+
+
+                                    @*<div id="execiseNote">
+                                        <span>@execise.Note</span>
+                                    </div>*@
+                                </div>
+
+                            </div>
+                        </a>
+                        if (styleB == true)
+                        {
+                            styleB = false;
+                        }
+                        else
+                        {
+                            styleB = true;
+                        }
+                    }
+
+
+
+
+
+                }
+                foreach (var distribution in Model.RecipesDistribution)
+                {
+
+                    if (distribution.Plan == plan)
+                    {
+                        string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
+                        <a href='@Url.Action("Overview", "Recipes", new { id = distribution.Recipe.Id , name = distribution.Recipe.Name })'>
+                            <div style="@style" id="singleExecise" class="row">
+                                <div id="imageDiv" class="col-sm-3">
+                                    <span><img class="img-fluid" src="http://placehold.it/750x500" alt="" height="186" , width="244"></span>
+                                </div>
+                                <div id="execiseDetails" class="row">
+                                    <div id="execiseReps" class="col-sm-3">
+                                        <h2 class="my-4">
+                                            @distribution.Recipe.Name
+                                            
+                                        </h2>
+
+                                    </div>
+                                    <div id="execiseName">
+                                        <h2 class="my-4"></h2>
+
+                                    </div>
+
+
+                                    @*<div id="execiseNote">
+                                        <span>@execise.Note</span>
+                                    </div>*@
+                                </div>
+
+                            </div>
+                        </a>
+
+                        if (styleB == true)
+                        {
+                            styleB = false;
+                        }
+                        else
+                        {
+                            styleB = true;
+                        }
+                    }
+
+
+
+
+
+                }
+            }
+
+        }
+
+    </div>
+}
+
