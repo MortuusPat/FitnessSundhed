@@ -29,5 +29,7 @@ namespace FitnessSundhed.Models
 
         public double Fiber { get; set; }
 
+        public bool IsChecked { get; set; }
+
     }
 }

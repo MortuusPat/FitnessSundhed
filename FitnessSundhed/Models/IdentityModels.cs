@@ -33,6 +33,8 @@ namespace FitnessSundhed.Models
         public DbSet<PlanWorkoutDistribution> PlanWorkoutDistributionss { get; set; }
         public DbSet<PlanRecipeDistribution> PlanRecipeDistributionss { get; set; }
 
+        public DbSet<ShoppingList> ShoppingListss { get; set; }
+
 
 
 

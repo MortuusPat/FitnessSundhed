@@ -26,7 +26,7 @@ else
             }
 
 
-            
+
 
         </div>
     </div>
@@ -41,7 +41,7 @@ else
 
                     if (distribution.Plan == plan)
                     {
-                        
+
                         string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
                         <a href='@Url.Action("Overview", "Workouts", new { id = distribution.Workout.Id , name = distribution.Workout.Name })'>
                             <div style="@style" id="singleExecise" class="row">
@@ -63,8 +63,8 @@ else
 
 
                                     @*<div id="execiseNote">
-                                        <span>@execise.Note</span>
-                                    </div>*@
+                                            <span>@execise.Note</span>
+                                        </div>*@
                                 </div>
 
                             </div>
@@ -99,7 +99,7 @@ else
                                     <div id="execiseReps" class="col-sm-3">
                                         <h2 class="my-4">
                                             @distribution.Recipe.Name
-                                            
+
                                         </h2>
 
                                     </div>
@@ -110,8 +110,8 @@ else
 
 
                                     @*<div id="execiseNote">
-                                        <span>@execise.Note</span>
-                                    </div>*@
+                                            <span>@execise.Note</span>
+                                        </div>*@
                                 </div>
 
                             </div>

@@ -1,0 +1,39 @@
+﻿@model FitnessSundhed.ViewModels.ShoppingListViewModel
+@{ 
+    ViewBag.Title = "ShoppingList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ShoppingList</h2>
+
+@if (!Model.ShoppingList.Any())
+{
+    <p>Your Shopping List is Empty</p>
+    <button onclick="location.href='@Url.Action("NewList", "Shopping")';return false;">Create Shopping List</button>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>Ingredient</th>
+            <th>Quantity</th>
+            <th>Measurement</th>
+            <th>Is Done?</th>
+
+        </tr>
+        @foreach (var item in Model.ShoppingList)
+        {
+        <tr>
+            <td>@item.IngredientId.Name</td>
+            <td>@item.Quantity</td>
+            <td>@item.Measurement</td>
+            <td>
+                <input type="checkbox" name="vehicle1" value="">
+            </td>
+
+        </tr>
+        }
+
+    </table>
+}
+

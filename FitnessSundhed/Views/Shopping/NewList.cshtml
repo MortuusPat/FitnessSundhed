@@ -1,0 +1,76 @@
+﻿@model List<FitnessSundhed.Models.Recipes>
+@{
+    ViewBag.Title = "NewList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if(!Model.Any())
+{
+    <p>It is not possible to create a new shopping list, since you dont have an active plan. Click the Create Plan button to get started!</p>
+    <button onclick="location.href='@Url.Action("Create", "Planner")';return false;">Create Plan</button>
+}
+else
+{
+    bool styleB = true;
+    <div>
+        <div>
+
+
+            @using (Html.BeginForm("Create", "Shopping", FormMethod.Post, null))
+            {
+                
+            <div class="card">
+
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
+                    <a href='@Url.Action("Overview", "Recipes", new { id = Model[i].Id , name = Model[i].Name })'>
+                        <div style="@style" id="singleExecise" class="row">
+                            <div id="imageDiv" class="col-sm-3">
+                                <span><img class="img-fluid" src="http://placehold.it/750x500" alt="" height="186" , width="244"></span>
+                            </div>
+                            <div id="execiseDetails" class="row">
+                                <div id="execiseReps" class="col-sm-3">
+                                    <h2 class="my-4">
+                                        @Model[i].Name
+
+                                    </h2>
+
+                                </div>
+                                <div id="execiseName">
+                                    <h2 class="my-4"></h2>
+
+                                </div>
+
+
+                                @*<div id="execiseNote">
+                            span>@execise.Note</span>
+                        </div>*@
+                            </div>
+
+                        </div>
+                    </a>
+
+                    if (styleB == true)
+                    {
+                        styleB = false;
+                    }
+                    else
+                    {
+                        styleB = true;
+                    }
+
+
+                    @Html.CheckBoxFor(m => Model[i].IsChecked)
+                    @Html.HiddenFor(modelitem => Model[i].Id)
+
+                }
+            </div>
+                <button type="submit" class="btn btn-primary">Create List</button>
+            }
+
+        </div>
+
+    </div>
+}
+
