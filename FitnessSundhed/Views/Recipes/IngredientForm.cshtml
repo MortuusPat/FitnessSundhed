@@ -7,10 +7,10 @@
 
 <h2>IngredientForm</h2>
 
-@using (Html.BeginForm("CreateIngredient", "Recipes", FormMethod.Post, null)) 
+@using (Html.BeginForm("CreateIngredient", "Recipes", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Ingredients</h4>
         <hr />
@@ -22,7 +22,7 @@
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        @Html.HiddenFor(model => model.Id)
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -34,3 +34,7 @@
 <div>
     @Html.ActionLink("Back to List", "ListIngredients")
 </div>
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+    }

@@ -23,14 +23,26 @@ namespace FitnessSundhed.Controllers
             _context.Dispose();
         }
 
+
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult New()
         {
-            return View("WorkoutForm");
+            Workouts workout = new Workouts();
+            return View("WorkoutForm", workout);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Create(Workouts model)
         {
+            if (!ModelState.IsValid)
+            {
+                
+                return View("WorkoutForm", model);
+            }
+            
+
             if (model.Id == 0)
             {
                 Workouts workout = new Workouts();
@@ -58,6 +70,7 @@ namespace FitnessSundhed.Controllers
             return View(workouts);
         }
 
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Edit(int id)
         {
             var workout = _context.Workoutss.SingleOrDefault(c => c.Id == id);
@@ -73,13 +86,14 @@ namespace FitnessSundhed.Controllers
         [Route("workouts/overview/{id}/{name}")]
         public ActionResult Overview(int id, string name)
         {
-            
+            Sets Set = new Sets();
             var workouts = _context.Workoutss.SingleOrDefault(w => w.Id == id);
             var sets = _context.Setss.ToList();
             var execises = _context.Execisess.ToList();
             WorkoutViewModel viewModel = new WorkoutViewModel();
             viewModel.Workout = workouts;
             viewModel.Sets = sets;
+            viewModel.Set = Set;
             viewModel.Execises = execises;
             
             if (workouts == null)
@@ -89,11 +103,14 @@ namespace FitnessSundhed.Controllers
 
 
 
-
-            return View(viewModel);
+            if (User.IsInRole("CanManageAdmin"))
+                return View(viewModel);
+            else
+                return View("OverviewReadOnly", viewModel);
+            
         }
 
-        
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Delete(int id)
         {
             var workout = _context.Workoutss.SingleOrDefault(c => c.Id == id);
@@ -123,8 +140,13 @@ namespace FitnessSundhed.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult CreateSet(WorkoutViewModel model)
         {
+
+            
+
             Sets set = new Sets();
             set = model.Set;
             set.WorkoutsId = model.Workout.Id;
@@ -135,6 +157,8 @@ namespace FitnessSundhed.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult CreateExecise(WorkoutViewModel model)
         {
             Execises execise = new Execises();
@@ -146,8 +170,9 @@ namespace FitnessSundhed.Controllers
 
         }
 
-
+        
         [Route("workouts/overview/{workoutId}/edit/set/{id}")]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult EditSet(int workoutId, int id)
         {
             var set = _context.Setss.SingleOrDefault(c => c.Id == id);
@@ -163,8 +188,16 @@ namespace FitnessSundhed.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult UpdateSet(Sets set)
         {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("EditSet", set);
+            }
 
             var setInDB = _context.Setss.Single(c => c.Id == set.Id);
             var workoutInDB = _context.Workoutss.Single(c => c.Id == set.WorkoutsId);
@@ -185,7 +218,9 @@ namespace FitnessSundhed.Controllers
 
 
         }
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult DeleteSet(int id)
+
         {
             var set = _context.Setss.SingleOrDefault(c => c.Id == id);
             var workoutInDB = _context.Workoutss.Single(c => c.Id == set.WorkoutsId);
@@ -205,10 +240,13 @@ namespace FitnessSundhed.Controllers
             _context.SaveChanges();
             return RedirectToAction("Overview", "Workouts", new { id = workoutInDB.Id, name = workoutInDB.Name });
         }
-
+        
         [Route("workouts/overview/{workoutId}/set/{setId}/edit/execise/{id}")]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult EditExecise(int workoutId, int setId, int id )
         {
+
+
             var execise = _context.Execisess.SingleOrDefault(c => c.Id == id);
 
             if (execise == null)
@@ -222,8 +260,17 @@ namespace FitnessSundhed.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult UpdateExecise(Execises execise)
         {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("EditExecise", execise);
+            }
+
             var execiseInDB = _context.Execisess.Single(c => c.Id == execise.Id);
             var setInDB = _context.Setss.Single(c => c.Id == execiseInDB.SetsId);
             var workoutInDB = _context.Workoutss.Single(c => c.Id == setInDB.WorkoutsId);
@@ -245,7 +292,7 @@ namespace FitnessSundhed.Controllers
 
 
         }
-
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult DeleteExecise(int id)
         {
             var execise = _context.Execisess.SingleOrDefault(c => c.Id == id);

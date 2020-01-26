@@ -1,5 +1,5 @@
 ﻿@model FitnessSundhed.ViewModels.ShoppingListViewModel
-@{ 
+@{
     ViewBag.Title = "ShoppingList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -23,17 +23,22 @@ else
         </tr>
         @foreach (var item in Model.ShoppingList)
         {
-        <tr>
-            <td>@item.IngredientId.Name</td>
-            <td>@item.Quantity</td>
-            <td>@item.Measurement</td>
-            <td>
-                <input type="checkbox" name="vehicle1" value="">
-            </td>
+            <tr>
+                <td>@item.IngredientId.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Measurement</td>
+                <td>
+                    <input type="checkbox" name="vehicle1" value="">
+                </td>
 
-        </tr>
+            </tr>
         }
 
     </table>
+
+
+    <button onclick="location.href='@Url.Action("ClearList", "Shopping")';return false;">Clear List</button>
 }
+
+
 

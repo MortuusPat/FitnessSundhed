@@ -1,0 +1,130 @@
+﻿@model FitnessSundhed.ViewModels.WorkoutViewModel
+
+@{
+    ViewBag.Title = Model.Workout.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="my-4">
+    @Model.Workout.Name
+    <small>@Model.Workout.Author</small>
+    @*<small>@Html.ActionLink("Delete Workout", "Delete", "Workouts", new { id = Model.Workout.Id }, null)</small>*@
+</h1>
+<div class="row">
+
+    <div class="col-md-8">
+        <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+    </div>
+
+    <div class="col-md-4">
+        <h3 class="my-3">Workout Description</h3>
+        <p>@Model.Workout.Description</p>
+        <h3 class="my-3">Equipment</h3>
+        <p>
+            @Model.Workout.Equipment
+        </p>
+        <h3 class="my-3">Targets</h3>
+        <p>
+            @Model.Workout.Targets
+        </p>
+    </div>
+
+
+
+</div>
+
+@if (Model.Sets.Count == 0)
+{
+    <p>This Workout doesnt contain any sets. You must first create one.</p>
+}
+else
+{
+    int i = 1;
+    foreach (var set in Model.Sets)
+    {
+        if (set.WorkoutsId == Model.Workout.Id)
+        {
+            <hr />
+            <div class="form-horizontal">
+                @*Sets*@
+                <div class="text-center"><h2>Set @i - @set.SetName</h2></div>
+                
+
+                @{ i++;}
+                <div class="text-center"><p>@set.SetDesc</p></div>
+
+                @*Execises*@
+                @if (Model.Execises.Count == 0)
+                {
+                    <p>This Set doesnt contain any execises. You must first create one.</p>
+                }
+                else
+                {
+                    bool styleB = true;
+
+                    <div id="allExecises" class="container-fluid container">
+                        @foreach (var execise in Model.Execises)
+                        {
+                            if (execise.SetsId == set.Id)
+                            {
+                                string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
+                                <div style="@style" id="singleExecise" class="row">
+                                    <div id="imageDiv" class="col-sm-3">
+                                        <span><img class="img-fluid" src="http://placehold.it/750x500" alt="" height="186" , width="244"></span>
+                                    </div>
+                                    <div id="execiseDetails" class="row">
+                                        <div id="execiseReps" class="col-sm-3">
+                                            <h2 class="my-4">
+                                                @execise.Reps
+                                                <small>Reps</small>
+                                            </h2>
+
+                                        </div>
+                                        <div id="execiseName">
+                                            <h2 class="my-4">
+                                                @execise.Name
+                                            </h2>
+
+                                        </div>
+
+
+                                        @*<div id="execiseNote">
+                                                <span>@execise.Note</span>
+                                            </div>*@
+                                    </div>
+
+                                </div>
+                                if (styleB == true)
+                                {
+                                    styleB = false;
+                                }
+                                else
+                                {
+                                    styleB = true;
+                                }
+                            }
+
+
+
+
+
+                        }
+                    </div>
+
+                }
+
+
+                
+
+            </div>
+
+        }
+
+    }
+
+}
+
+            <p>
+
+                @Html.ActionLink("Back to List", "Library")
+            </p>

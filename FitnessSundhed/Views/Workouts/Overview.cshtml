@@ -33,7 +33,10 @@
 
 
 </div>
+<p>
 
+    @Html.ActionLink("Back to List", "Library")
+</p>
 @if (Model.Sets.Count == 0)
 {
     <p>This Workout doesnt contain any sets. You must first create one.</p>
@@ -69,7 +72,7 @@ else
                             if (execise.SetsId == set.Id)
                             {
                                 string style = styleB ? "background-color: #f7f7f7" : "background-color: white";
-                        <p>@Html.ActionLink("Edit Execise", "EditExecise", "Workouts", new { workoutId = Model.Workout.Id, setId = set.Id, id = execise.Id }, null) - @Html.ActionLink("Delete Execise", "DeleteExecise", "Workouts", new { id = execise.Id }, null)</p>
+                                <p>@Html.ActionLink("Edit Execise", "EditExecise", "Workouts", new { workoutId = Model.Workout.Id, setId = set.Id, id = execise.Id }, null) - @Html.ActionLink("Delete Execise", "DeleteExecise", "Workouts", new { id = execise.Id }, null)</p>
                                 <div style="@style" id="singleExecise" class="row">
                                     <div id="imageDiv" class="col-sm-3">
                                         <span><img class="img-fluid" src="http://placehold.it/750x500" alt="" height="186" , width="244"></span>
@@ -91,8 +94,8 @@ else
 
 
                                         @*<div id="execiseNote">
-                            <span>@execise.Note</span>
-                        </div>*@
+                                                <span>@execise.Note</span>
+                                            </div>*@
                                     </div>
 
                                 </div>
@@ -157,7 +160,7 @@ else
                         </div>
                     </div>
                 }
-                
+
             </div>
 
         }
@@ -171,33 +174,40 @@ else
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Set.SetName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Set.SetName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Set.SetName, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            <div class="form-horizontal">
+                <hr />
+                
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Set.SetName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Set.SetName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Set.SetName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Set.SetDesc, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Set.SetDesc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Set.SetDesc, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.HiddenFor(model => model.Workout.Id)
-        @Html.HiddenFor(model => model.Workout.Name)
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Set.SetDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Set.SetDesc, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Set.SetDesc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @Html.HiddenFor(model => model.Set.Id)
+                @Html.HiddenFor(model => model.Workout.Id)
+                @Html.HiddenFor(model => model.Workout.Name)
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create Set" class="btn btn-default" />
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create Set" class="btn btn-default" />
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+
+
 }
 
 
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+    }

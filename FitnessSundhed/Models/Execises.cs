@@ -10,8 +10,16 @@ namespace FitnessSundhed.Models
     {
         public int Id { get; set; }
         public string ImagePath { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Name { get; set; }
+
+        [Required]
         public int Reps { get; set; }
+
+        [Required]
+        [StringLength(100)]
         public string Note { get; set; }
 
         public int SetsId { get; set; }

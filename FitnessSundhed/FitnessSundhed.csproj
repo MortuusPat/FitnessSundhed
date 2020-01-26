@@ -253,6 +253,14 @@
     <Compile Include="Migrations\202001210010070_ShoppingListModelNewApplicationUserProperty.Designer.cs">
       <DependentUpon>202001210010070_ShoppingListModelNewApplicationUserProperty.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001260334265_WorkoutModelDataAnnotationsNValidation.cs" />
+    <Compile Include="Migrations\202001260334265_WorkoutModelDataAnnotationsNValidation.Designer.cs">
+      <DependentUpon>202001260334265_WorkoutModelDataAnnotationsNValidation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001260526252_ModelsDataAnnontationImplemtation.cs" />
+    <Compile Include="Migrations\202001260526252_ModelsDataAnnontationImplemtation.Designer.cs">
+      <DependentUpon>202001260526252_ModelsDataAnnontationImplemtation.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Execises.cs" />
@@ -345,6 +353,8 @@
     <Content Include="Views\Shopping\ShoppingList.cshtml" />
     <Content Include="Views\Shopping\NewList.cshtml" />
     <Content Include="Views\Shopping\Test.cshtml" />
+    <Content Include="Views\Workouts\OverviewReadOnly.cshtml" />
+    <Content Include="Views\Recipes\OverviewReadOnly.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -419,6 +429,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001210010070_ShoppingListModelNewApplicationUserProperty.resx">
       <DependentUpon>202001210010070_ShoppingListModelNewApplicationUserProperty.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001260334265_WorkoutModelDataAnnotationsNValidation.resx">
+      <DependentUpon>202001260334265_WorkoutModelDataAnnotationsNValidation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001260526252_ModelsDataAnnontationImplemtation.resx">
+      <DependentUpon>202001260526252_ModelsDataAnnontationImplemtation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

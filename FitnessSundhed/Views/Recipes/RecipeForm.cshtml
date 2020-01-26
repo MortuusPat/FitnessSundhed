@@ -1,18 +1,18 @@
 ﻿@model FitnessSundhed.Models.Recipes
 
 @{
-    ViewBag.Title = "RecipeForm";
+    ViewBag.Title = "Recipes";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>RecipeForm</h2>
+<h2>Recipes</h2>
 
 @using (Html.BeginForm("Create", "Recipes", FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Recipes</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
@@ -108,3 +108,9 @@
 <div>
     @Html.ActionLink("Back to List", "List")
 </div>
+
+
+@section scripts
+    {
+    @Scripts.Render("~/bundles/jqueryval")
+    }

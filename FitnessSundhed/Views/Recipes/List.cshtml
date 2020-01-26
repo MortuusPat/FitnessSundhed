@@ -6,19 +6,24 @@
 }
 
 
-
+@if (User.IsInRole("CanManageAdmin"))
+{
 <p>
+
     @Html.ActionLink("Create New", "New") - @Html.ActionLink("Switch To Ingredients", "ListIngredients")
 </p>
+}
+
 <table class="table">
     <tr>
         <th>
-            
+
         </th>
         <th></th>
     </tr>
 
-@foreach (var recipe in Model) {
+    @foreach (var recipe in Model)
+    {
     <tr>
         <td>
             <div class="container DivRecipe center-block">
@@ -26,18 +31,22 @@
                     <a href='@Url.Action("Overview", "Recipes", new { id = recipe.Id , name = recipe.Name })'>
                         <img class="img-fluid center-block" src="http://placehold.it/750x500" alt="" height="372" , width="570">
                     </a>
-                    
+
                 </div>
-                <div class="row RecipeTitle text-center" >
-                    <h2>@Html.ActionLink(recipe.Name, "Overview", "Recipes", new { id = recipe.Id , name = recipe.Name }, null)</h2>
+                <div class="row RecipeTitle text-center">
+                    <h2>@Html.ActionLink(recipe.Name, "Overview", "Recipes", new { id = recipe.Id, name = recipe.Name }, null)</h2>
                 </div>
             </div>
-            
+
         </td>
+        @if (User.IsInRole("CanManageAdmin"))
+        {
         <td>
-            @Html.ActionLink("Delete", "Delete", new { id=recipe.Id })
+            @Html.ActionLink("Delete", "Delete", new { id = recipe.Id })
         </td>
+        }
+        
     </tr>
-}
+    }
 
 </table>

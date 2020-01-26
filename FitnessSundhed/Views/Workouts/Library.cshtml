@@ -31,13 +31,18 @@ else
 
                 </tr>
             }
-            
+
 
 
         </tbody>
 
     </table>
 }
-@Html.ActionLink("New Workout", "New", "Workouts")
+
+@if (User.IsInRole("CanManageAdmin"))
+{
+    @Html.ActionLink("New Workout", "New", "Workouts")
+}
+
 
 

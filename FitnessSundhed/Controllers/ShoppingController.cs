@@ -137,5 +137,24 @@ namespace FitnessSundhed.Controllers
 
             return RedirectToAction("ShoppingList", "Shopping");
         }
+
+
+        public ActionResult ClearList()
+        {
+            var shoppingList = _context.ShoppingListss.ToList();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            foreach (var item in shoppingList)
+            {
+                if (item.User == user)
+                {
+                    _context.ShoppingListss.Remove(item);
+                }
+            }
+
+            _context.SaveChanges();
+
+            return RedirectToAction("ShoppingList", "Shopping");
+
+        }
     }
 }

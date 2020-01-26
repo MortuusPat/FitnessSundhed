@@ -1,0 +1,107 @@
+﻿@model FitnessSundhed.ViewModels.RecipeViewModel
+
+@{
+    ViewBag.Title = "Overview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Overview</h2>
+
+<h1 class="my-4">
+    @Model.Recipe.Name
+  
+
+</h1>
+<div class="row">
+
+    <div class="col-md-8">
+        <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+    </div>
+
+    <div class="col-md-4">
+
+        <h5 class="my-3">
+            <b>NUTRITIONAL INFORMATION</b>  <i>Based on 1 serving</i>
+
+        </h5>
+        <div class="row">
+            <div class="col-sm-3">
+                <i>Energy(kJ)</i> <br /> <br />
+                <b>@Model.Recipe.EnergyKJ</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Energy(Cals)</i> <br /> <br />
+                <b>@Model.Recipe.EnergyCals</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Protein</i> <br /> <br />
+                <b>@Model.Recipe.Protein</b>
+            </div>
+            <div class="col-sm-3">
+                <i>Fat</i> <br /> <br />
+                <b>@Model.Recipe.Fat</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <br />
+                <i>Carbs</i> <br /> <br />
+                <b>@Model.Recipe.Carbs</b>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <i>Sugar</i> <br /> <br />
+                <b>@Model.Recipe.Sugar</b>
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <i>Fiber</i> <br /> <br />
+                <b>@Model.Recipe.Fiber</b>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+<p>
+
+    @Html.ActionLink("Back to List", "List")
+</p>
+
+@if (Model.RecipeDetails.Count == 0)
+{
+    <p>This Recipe does require any ingredients</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                List of Ingredients
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var detail in Model.RecipeDetails)
+        {
+            if (detail.Recipe == Model.Recipe)
+            {
+                <tr>
+                    <td>
+                        @detail.Quantity @detail.Measurement @detail.Ingredient.Name
+                    </td>
+                    <td>
+                      
+                    </td>
+                </tr>
+            }
+
+        }
+
+    </table>
+}
+
+
+
+

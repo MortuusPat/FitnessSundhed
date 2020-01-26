@@ -32,14 +32,26 @@ namespace FitnessSundhed.Controllers
             return View(recipes);
         }
 
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult New()
         {
-            return View("RecipeForm");
+            var recipe = new Recipes();
+
+            return View("RecipeForm", recipe);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Create(Recipes model)
         {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("RecipeForm", model);
+            }
+
             if (model.Id == 0)
             {
                 Recipes recipe = new Recipes();
@@ -87,10 +99,14 @@ namespace FitnessSundhed.Controllers
 
 
 
-
-            return View(viewModel);
+            if (User.IsInRole("CanManageAdmin"))
+                return View(viewModel);
+            else
+                return View("OverviewReadOnly", viewModel);
+           
         }
 
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Edit(int id)
         {
             var recipe = _context.Recipess.SingleOrDefault(c => c.Id == id);
@@ -103,6 +119,7 @@ namespace FitnessSundhed.Controllers
             return View("RecipeForm", recipe);
         }
 
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult Delete(int id)
         {
             var recipe = _context.Recipess.SingleOrDefault(c => c.Id == id);
@@ -115,15 +132,27 @@ namespace FitnessSundhed.Controllers
 
 
         //Ingredients
+        
         [Route("recipes/ingredients/new")]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult NewIngredient()
         {
-            return View("IngredientForm");
+            var ingredient = new Ingredients();
+            return View("IngredientForm", ingredient);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult CreateIngredient(Ingredients model)
         {
+
+            if (!ModelState.IsValid)
+            {
+
+                return View("IngredientForm", model);
+            }
+
             Ingredients ingredient = new Ingredients();
             ingredient = model;
             _context.Ingredientss.Add(ingredient);
@@ -136,6 +165,7 @@ namespace FitnessSundhed.Controllers
         }
 
         [Route("recipes/ingredients/all")]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult ListIngredients()
         {
 
@@ -145,6 +175,8 @@ namespace FitnessSundhed.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult CreateDetail(RecipeViewModel model)
         {
             var recipeDetail = model.RecipeDetail;
@@ -163,6 +195,7 @@ namespace FitnessSundhed.Controllers
             return RedirectToAction("Overview", "Recipes", new { id = recipe.Id, name = recipe.Name });
         }
 
+        [Authorize(Roles = "CanManageAdmin")]
         public ActionResult DeleteDetail(int id, int recipeId)
         {
             var recipeDetail = _context.RecipeDetailss.SingleOrDefault(c => c.Id == id);
